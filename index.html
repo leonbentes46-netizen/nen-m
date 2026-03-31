@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Para Taylane ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:'Great Vibes', cursive;
+background: linear-gradient(135deg,#1a0010,#3a0a2a,#5c0f35);
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.container{width:100%;max-width:100vw;padding:10px;}
+
+header{padding:10px 0;}
+
+h1{font-size:2.8em;margin:0;}
+.headline{font-size:2.8em;margin:5px 0;}
+
+.card{
+width:100%;
+padding:15px;
+border-radius:18px;
+margin:10px 0;
+background:rgba(255,255,255,0.08);
+}
+
+h2{
+font-family:'Dancing Script',cursive;
+font-size:1.9em;
+}
+
+button{
+width:100%;
+padding:16px;
+border-radius:14px;
+border:none;
+background:#ff2e63;
+color:white;
+font-size:1.4em;
+margin:6px 0;
+font-family:'Great Vibes', cursive;
+}
+
+/* TIMER */
+.timer-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:15px;
+}
+
+.time-box{
+background:#a3001e;
+padding:18px;
+border-radius:18px;
+font-size:1.6em;
+}
+
+/* FOTOS */
+.photos{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.photo-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.photo-item img{
+width:100%;
+border-radius:12px;
+border:2px solid rgba(255,255,255,0.5);
+}
+
+.photo-caption{
+margin-top:6px;
+font-size:1.5em;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#3a0a2a;
+display:none;
+align-items:center;
+justify-content:center;
+padding:10px;
+}
+
+.modal.open{display:flex;}
+
+.modal-content{
+width:100%;
+max-width:600px;
+padding:18px;
+border-radius:18px;
+background:rgba(255,255,255,0.1);
+font-size:1.5em;
+overflow-y:auto;
+max-height:90vh;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+}
+
+.motivos-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+.motivo{
+background:rgba(255,255,255,0.1);
+padding:12px;
+border-radius:12px;
+font-size:1.3em;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>Para Meu amor ❤️</h1>
+<p>Desde 03/07/2025</p>
+<p class="headline">Entre bilhões de pessoas, eu escolheria você todas as vezes 💖</p>
+</header>
+
+<div class="card">
+<h2>⏳ Nosso tempo</h2>
+<div class="timer-grid" id="countdown"></div>
+</div>
+<div class="card">
+<h2>🎵 Nossa música</h2>
+
+<iframe 
+src="https://open.spotify.com/embed/track/24yhU1uQVX0u5Rvc0gProL" 
+width="100%" 
+height="152" 
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>
+
+</div>
+<div class="card">
+<h2>📸 Nossas fotos</h2>
+
+<div class="photos">
+<div class="photo-item"><img src="foto1.jpg"><div class="photo-caption">Você é meu lugar favorito 💖</div></div>
+<div class="photo-item"><img src="foto2.jpg"><div class="photo-caption">Com você tudo faz sentido ✨</div></div>
+<div class="photo-item"><img src="foto3.jpg"><div class="photo-caption">Meu coração sempre encontra o seu ❤️</div></div>
+<div class="photo-item"><img src="foto4.jpg"><div class="photo-caption">Eu escolheria você em todas as vidas 💘</div></div>
+<div class="photo-item"><img src="foto5.jpg"><div class="photo-caption">Seu amor é meu abrigo 🫶</div></div>
+<div class="photo-item"><img src="foto6.jpg"><div class="photo-caption">Você é meu pra sempre 💍</div></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>💌 Carta</h2>
+<button onclick="openModal('letter')">Abrir</button>
+</div>
+
+<div class="card">
+<h2>💭 Motivos</h2>
+<button onclick="openModal('motivos')">Ver</button>
+</div>
+
+<div class="card">
+<h2>💖 Clique quando estiver com...</h2>
+<button onclick="openModal('triste')">Triste</button>
+<button onclick="openModal('saudade')">Saudade</button>
+<button onclick="openModal('insegura')">Insegura</button>
+</div>
+
+</div>
+
+<div class="modal" id="modal">
+<div class="close" onclick="closeModal()">✖</div>
+<div class="modal-content" id="modalText"></div>
+</div>
+
+<script>
+
+const start = new Date('2025-07-03T00:00:00');
+const countdown = document.getElementById('countdown');
+
+function timer(){
+const now = new Date();
+
+let totalMonths = (now.getFullYear()-start.getFullYear())*12 + (now.getMonth()-start.getMonth());
+if(now.getDate() < start.getDate()) totalMonths--;
+
+let y = Math.floor(totalMonths/12);
+let mo = totalMonths%12;
+
+let temp = new Date(start);
+temp.setMonth(start.getMonth()+totalMonths);
+
+let diff = now - temp;
+
+let s = Math.floor(diff/1000);
+let m = Math.floor(s/60);
+let h = Math.floor(m/60);
+let d = Math.floor(h/24);
+
+h%=24;m%=60;s%=60;
+
+countdown.innerHTML=`
+<div class="time-box">${y}<br>Anos</div>
+<div class="time-box">${mo}<br>Meses</div>
+<div class="time-box">${d}<br>Dias</div>
+<div class="time-box">${h}<br>Horas</div>
+<div class="time-box">${m}<br>Min</div>
+<div class="time-box">${s}<br>Seg</div>`;
+}
+setInterval(timer,1000);
+timer();
+
+function openModal(t){
+let txt="";
+
+if(t==='letter') txt=`
+Eu nem sei por onde começar… porque quando se trata de você, tudo em mim se mistura: sentimento, pensamento, saudade, vontade… é como se meu coração tivesse aprendido um novo jeito de bater desde que você entrou na minha vida.
+
+Você não é só alguém especial. Você é aquela pessoa que mudou a forma como eu enxergo tudo. Antes de você, os dias eram comuns… agora, qualquer coisa ganha sentido só por lembrar de você. Um simples pensamento seu já é suficiente pra melhorar o meu dia inteiro.
+
+Eu me pego pensando em você em momentos aleatórios, sorrindo sozinho, lembrando de detalhes que talvez nem tenham sido grandes pra você, mas que pra mim significaram o mundo. O jeito que você fala, o jeito que você ri, até o silêncio quando você tá comigo… tudo em você me prende de um jeito que eu nunca vivi antes.
+
+E não é só sobre gostar… é sobre sentir algo tão forte que às vezes nem cabe em palavras. É sobre querer cuidar de você, te ver bem, te ver sorrindo, mesmo que o mundo lá fora esteja complicado. É sobre escolher você, todos os dias, em cada detalhe, em cada decisão.
+
+Eu admiro quem você é. De verdade. Sua forma de ser, sua essência, suas qualidades… até seus defeitos, porque eles fazem parte de quem você é, e eu aprendi a gostar de você por completo, sem querer mudar nada.
+
+Se um dia eu falhar, se eu errar, não é por falta de sentimento — porque o que eu sinto por você é real, é forte, é sincero. É aquele tipo de sentimento que não se explica fácil, mas que se prova nas atitudes, no cuidado, na presença.
+
+Eu quero estar com você nos momentos bons, mas também nos difíceis. Quero ser alguém que soma, que apoia, que te faz sentir segura. Porque você merece o melhor — e eu vou tentar ser isso, todos os dias.
+
+E no meio de tanta coisa nesse mundo… eu só tenho uma certeza:
+é você.
+
+Você é a pessoa que eu escolhi gostar, que eu escolhi cuidar, que eu escolhi ter ao meu lado. Não por falta de opções, mas porque ninguém chega nem perto do que você é pra mim.
+
+Se essa carta tivesse fim, talvez eu colocaria um “eu te amo” aqui.
+
+Mas a verdade é que isso não termina em palavras… continua em tudo que eu sinto por você.
+
+— Com todo meu coração. ❤️
+`;
+if(t==='motivos') txt=`
+<div class="motivos-grid">
+<div class="motivo">1. Eu te amo porque o seu sorriso muda completamente o meu dia.</div>
+<div class="motivo">2. Eu te amo porque você tem um jeito único que ninguém mais tem.</div>
+<div class="motivo">3. Eu te amo porque tudo fica melhor quando você está por perto.</div>
+<div class="motivo">4. Eu te amo porque você se importa comigo de verdade.</div>
+<div class="motivo">5. Eu te amo porque você me faz querer ser alguém melhor.</div>
+<div class="motivo">6. Eu te amo porque seu olhar me traz paz.</div>
+<div class="motivo">7. Eu te amo porque até as coisas simples com você viram especiais.</div>
+<div class="motivo">8. Eu te amo porque você me entende até no silêncio.</div>
+<div class="motivo">9. Eu te amo porque você tem um coração enorme.</div>
+<div class="motivo">10. Eu te amo porque com você qualquer momento vira lembrança boa.</div>
+<div class="motivo">11. Eu te amo porque você me apoia em tudo.</div>
+<div class="motivo">12. Eu te amo porque você me faz sorrir sem nem tentar.</div>
+<div class="motivo">13. Eu te amo pelo seu jeito carinhoso.</div>
+<div class="motivo">14. Eu te amo porque sua presença já me acalma.</div>
+<div class="motivo">15. Eu te amo porque eu sinto sua falta mesmo depois de pouco tempo.</div>
+<div class="motivo">16. Eu te amo porque você me inspira todos os dias.</div>
+<div class="motivo">17. Eu te amo até nos seus momentos bravos, porque você continua sendo você.</div>
+<div class="motivo">18. Eu te amo porque você me faz acreditar no amor de verdade.</div>
+<div class="motivo">19. Eu te amo porque você é única e insubstituível.</div>
+<div class="motivo">20. Eu te amo simplesmente por ser você.</div>
+<div class="motivo">E se eu pudesse resumir tudo em uma frase: eu te amo porque você é a melhor parte da minha vida. ❤️</div>
+</div>
+`;
+
+if(t==='triste') txt=`💔 Quando você estiver triste:
+Eu não gosto de te ver assim, mas quero que você nunca esqueça que eu tô aqui com você. Você não precisa enfrentar isso sozinha. Se quiser falar, desabafar ou só ficar em silêncio, eu fico com você. Você é mais forte do que imagina, e mesmo nesses momentos difíceis, você continua sendo incrível pra mim.
+
+Eu tô aqui por você, em qualquer fase. ❤️`;
+
+if(t==='saudade') txt=`💭 Quando você estiver com saudade:
+Eu sei que a saudade aperta… mas eu também sinto você fazendo falta. Mesmo quando não estamos juntos, você continua comigo nos meus pensamentos. Fecha os olhos e lembra dos nossos momentos bons… porque ainda vão ter muitos outros. E até lá, eu tô aqui, contando os dias pra te ver de novo.
+
+Eu tô aqui por você, em qualquer fase. ❤️`;
+
+if(t==='insegura') txt=`🌧️ Quando você estiver insegura:
+Amor, não deixa suas dúvidas te enganarem. Você é muito mais especial do que imagina. Eu te vejo de um jeito lindo, forte e único. Se um dia você duvidar de si mesma, lembra do quanto você significa pra mim. Eu gosto de você exatamente como você é, sem precisar mudar nada. E isso não vai mudar.
+
+Eu tô aqui por você, em qualquer fase. ❤️`;
+
+modalText.innerHTML=txt;
+document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(){
+document.getElementById('modal').classList.remove('open');
+}
+
+</script>
+
+</body>
+</html>
